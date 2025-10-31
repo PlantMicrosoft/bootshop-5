@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册成功 - MyBatis</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .success-container { max-width: 600px; margin: 0 auto; padding: 40px; background: #f8f9fa; border-radius: 10px; }
+        .success-icon { font-size: 60px; margin-bottom: 20px; }
+        h1 { color: #28a745; }
+        .btn { display: inline-block; padding: 12px 24px; margin: 10px; text-decoration: none; border-radius: 5px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+<div class="success-container">
+    <div class="success-icon">✅</div>
+    <h1>MyBatis注册成功！</h1>
+    
+    <p th:text="${successMessage}">恭喜您成功注册！</p>
+    
+    <p style="color: #666; margin-bottom: 30px;">
+        您的账户已通过MyBatis成功创建，现在可以开始使用我们的服务了。
+    </p>
+
+    <div>
+        <a th:href="@{/mybatis-users/list}" class="btn btn-primary">👥 查看用户列表</a>
+        <a th:href="@{/mybatis-users/register}" class="btn btn-secondary">➕ 继续注册</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!-- ============================================ -->
+<!-- fragments.html - 公共片段 -->
+<!-- 位置：src/main/resources/templates/fragments.html -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- 页头片段 -->
+<header th:fragment="header">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 20px; color: white;">
+        <div style="max-width: 1200px; margin: 0 auto;
+                    display: flex; justify-content: space-between; align-items: center;">
+            <h1 style="margin: 0;">🎓 Spring MVC Demo</h1>
+            <nav>
+                <a th:href="@{/}" style="color: white; margin: 0 15px; text-decoration: none;">
+                    首页
+                </a>
+                <a th:href="@{/user/register}" style="color: white; margin: 0 15px; text-decoration: none;">
+                    注册
+                </a>
+                <a th:href="@{/user/list}" style="color: white; margin: 0 15px; text-decoration: none;">
+                    用户列表
+                </a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<!-- 页脚片段 -->
+<footer th:fragment="footer">
+    <div style="background: #333; color: white; padding: 30px; text-align: center; margin-top: 40px;">
+        <p style="margin: 0;">© 2024 Spring MVC + Thymeleaf Demo</p>
+        <p style="margin: 10px 0 0 0; color: #999; font-size: 14px;">
+            教学示例项目 - 仅供学习使用
+        </p>
+    </div>
+</footer>
+
+<!-- 带参数的警告框片段 -->
+<div th:fragment="alert (type, message)"
+     th:class="'alert alert-' + ${type}">
+    <strong th:if="${type == 'error'}">❌ 错误：</strong>
+    <strong th:if="${type == 'success'}">✅ 成功：</strong>
+    <strong th:if="${type == 'warning'}">⚠️ 警告：</strong>
+    <strong th:if="${type == 'info'}">ℹ️ 提示：</strong>
+    <span th:text="${message}">消息内容</span>
+</div>
+
+</body>
+</html>

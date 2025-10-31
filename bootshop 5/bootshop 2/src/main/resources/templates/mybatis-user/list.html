@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBatis用户列表</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn { display: inline-block; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn:hover { opacity: 0.8; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+        .badge-male { background: #e3f2fd; color: #1976d2; }
+        .badge-female { background: #fce4ec; color: #c2185b; }
+        .badge-other { background: #f3e5f5; color: #7b1fa2; }
+        .action-link { color: #007bff; text-decoration: none; margin-right: 10px; }
+        .action-link:hover { text-decoration: underline; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>👥 MyBatis用户列表</h1>
+
+    <div class="toolbar">
+        <div>
+            共 <strong th:text="${#lists.size(users)}">0</strong> 个用户
+        </div>
+        <a th:href="@{/mybatis-users/register}" class="btn btn-primary">➕ 注册新用户</a>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(users)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>真实姓名</th>
+            <th>邮箱</th>
+            <th>手机号码</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>城市</th>
+            <th>注册日期</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.username}">username</td>
+            <td th:text="${user.realName}">张三</td>
+            <td th:text="${user.email}">email@example.com</td>
+            <td th:text="${user.phone}">13812345678</td>
+            <td>
+                <span th:switch="${user.gender}">
+                    <span th:case="'male'" class="badge badge-male">男</span>
+                    <span th:case="'female'" class="badge badge-female">女</span>
+                    <span th:case="*" class="badge badge-other">其他</span>
+                </span>
+            </td>
+            <td th:text="${user.age}">25</td>
+            <td th:text="${user.city}">北京</td>
+            <td>
+                <span th:text="${#temporals.format(user.registerDate, 'yyyy-MM-dd')}">
+                    2024-01-01
+                </span>
+            </td>
+            <td>
+                <a th:href="@{/mybatis-users/{id}(id=${user.id})}" class="action-link">查看</a>
+                <a th:href="@{/mybatis-users/{id}/edit(id=${user.id})}" class="action-link">编辑</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(users)}" class="empty-state">
+        <div style="font-size: 60px; margin-bottom: 20px;">📭</div>
+        <h2>暂无用户</h2>
+        <p>还没有注册用户，点击上方按钮注册第一个用户吧！</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .no-users {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a th:href="@{/}" class="back-link">← Back to Home</a>
+        <h1>用户列表</h1>
+        <a th:href="@{/newUser}" class="btn btn-primary" style="margin-bottom: 20px;">新建用户</a>
+        
+        <div th:if="${#lists.isEmpty(users)}" class="no-users">
+            <p>数据库里查不到用户信息。</p>
+        </div>
+        
+        <table th:if="${!#lists.isEmpty(users)}">
+            <thead>
+                <tr>
+                    <th>用户ID</th>
+                    <th>用户姓名</th>
+                    <th>用户邮件地址</th>
+                    <th>用户电话号码</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.phone}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

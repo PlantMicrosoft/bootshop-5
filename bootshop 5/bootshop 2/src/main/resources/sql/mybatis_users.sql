@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS mybatis_users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL UNIQUE,
+    real_name VARCHAR(50) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    birth_date DATE,
+    age INT NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    bio TEXT,
+    hobbies VARCHAR(200),
+    newsletter_subscription BOOLEAN DEFAULT FALSE,
+    terms_accepted BOOLEAN DEFAULT FALSE,
+    register_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBatis用户注册</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .error { color: red; font-size: 12px; }
+        .required { color: red; }
+        button { background: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .form-row { display: flex; gap: 20px; }
+        .form-row .form-group { flex: 1; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${isEdit} ? '✏️ 编辑用户信息' : '🚀 MyBatis用户注册'">🚀 MyBatis用户注册</h1>
+    
+    <div th:if="${errorMessage}" style="color: red; margin-bottom: 20px;">
+        <strong th:text="${errorMessage}"></strong>
+    </div>
+
+    <form th:object="${user}" 
+          th:action="${isEdit} ? @{/mybatis-users/{id}/edit(id=${user.id})} : @{/mybatis-users/register}" 
+          method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <h2>📋 账户信息</h2>
+        
+        <div class="form-group">
+            <label>用户名 <span class="required">*</span></label>
+            <input type="text" th:field="*{username}" 
+                   th:readonly="${isEdit}"
+                   placeholder="请输入3-20个字符的用户名" />
+            <span class="error" th:errors="*{username}"></span>
+            <small th:if="${isEdit}" style="color: #666;">用户名不可修改</small>
+        </div>
+
+        <div class="form-group" th:unless="${isEdit}">
+            <label>密码 <span class="required">*</span></label>
+            <input type="password" th:field="*{password}" placeholder="请输入至少6个字符的密码" />
+            <span class="error" th:errors="*{password}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>邮箱地址 <span class="required">*</span></label>
+            <input type="email" th:field="*{email}" placeholder="example@email.com" />
+            <span class="error" th:errors="*{email}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>手机号码 <span class="required">*</span></label>
+            <input type="tel" th:field="*{phone}" placeholder="请输入11位手机号码" />
+            <span class="error" th:errors="*{phone}"></span>
+        </div>
+
+        <h2>👤 个人信息</h2>
+
+        <div class="form-group">
+            <label>真实姓名 <span class="required">*</span></label>
+            <input type="text" th:field="*{realName}" placeholder="请输入您的真实姓名" />
+            <span class="error" th:errors="*{realName}"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>性别 <span class="required">*</span></label>
+                <select th:field="*{gender}">
+                    <option value="">请选择性别</option>
+                    <option th:each="gender : ${genderOptions}"
+                            th:value="${gender.key}"
+                            th:text="${gender.value}"></option>
+                </select>
+                <span class="error" th:errors="*{gender}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>年龄 <span class="required">*</span></label>
+                <input type="number" th:field="*{age}" min="18" max="120" placeholder="18" />
+                <span class="error" th:errors="*{age}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>出生日期</label>
+            <input type="date" th:field="*{birthDate}" />
+            <span class="error" th:errors="*{birthDate}"></span>
+        </div>
+
+        <h2>🌍 地址信息</h2>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>国家 <span class="required">*</span></label>
+                <select th:field="*{country}">
+                    <option value="">请选择国家</option>
+                    <option th:each="country : ${countries}"
+                            th:value="${country}"
+                            th:text="${country}"></option>
+                </select>
+                <span class="error" th:errors="*{country}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>城市 <span class="required">*</span></label>
+                <select th:field="*{city}">
+                    <option value="">请选择城市</option>
+                    <option th:each="city : ${cities}"
+                            th:value="${city.key}"
+                            th:text="${city.value}"></option>
+                </select>
+                <span class="error" th:errors="*{city}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>个人简介</label>
+            <textarea th:field="*{bio}" placeholder="简单介绍一下您自己吧...（选填）"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>兴趣爱好</label>
+            <select th:field="*{hobbies}" multiple>
+                <option th:each="hobby : ${hobbyOptions}"
+                        th:value="${hobby}"
+                        th:text="${hobby}"></option>
+            </select>
+        </div>
+
+        <h2>📧 订阅设置</h2>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" th:field="*{newsletterSubscription}" />
+                订阅我们的电子邮件通讯
+            </label>
+        </div>
+
+        <!-- 条款同意复选框 - 仅在注册时显示 -->
+        <div class="form-group" th:unless="${isEdit}">
+            <label>
+                <input type="checkbox" th:field="*{termsAccepted}" />
+                我已阅读并同意服务条款和隐私政策 <span class="required">*</span>
+            </label>
+            <span class="error" th:errors="*{termsAccepted}"></span>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="submit" th:text="${isEdit} ? '💾 保存修改' : '🚀 立即注册'">🚀 立即注册</button>
+            <button type="reset" style="background: #6c757d; margin-left: 10px;">🔄 重置表单</button>
+            <a th:if="${isEdit}" th:href="@{/mybatis-users/{id}(id=${user.id})}" 
+               style="display: inline-block; padding: 12px 30px; background: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-left: 10px;">
+               ↩️ 返回详情
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

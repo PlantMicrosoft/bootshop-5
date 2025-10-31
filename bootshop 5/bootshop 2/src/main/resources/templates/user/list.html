@@ -1,0 +1,165 @@
+<!-- ============================================ -->
+<!-- list.html - 用户列表页面 -->
+<!-- 位置：src/main/resources/templates/user/list.html -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户列表</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .badge-male {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .badge-female {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .badge-other {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        .action-link {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .action-link:hover {
+            text-decoration: underline;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>👥 用户列表</h1>
+
+    <div class="toolbar">
+        <!-- ${#lists.size(...)} 使用内置对象获取列表大小 -->
+        <div>
+            共 <strong th:text="${#lists.size(users)}">0</strong> 个用户
+        </div>
+        <a th:href="@{/user/register}" class="btn">➕ 注册新用户</a>
+    </div>
+
+    <!-- th:if 条件判断：列表不为空时显示 -->
+    <table th:if="${!#lists.isEmpty(users)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>真实姓名</th>
+            <th>邮箱</th>
+            <th>手机号码</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>城市</th>
+            <th>注册日期</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- th:each 遍历用户列表 -->
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.username}">username</td>
+            <td th:text="${user.realName}">张三</td>
+            <td th:text="${user.email}">email@example.com</td>
+            <td th:text="${user.phone}">13812345678</td>
+            <td>
+                <!-- th:switch 和 th:case 条件判断 -->
+                <span th:switch="${user.gender}">
+                            <span th:case="'male'" class="badge badge-male">男</span>
+                            <span th:case="'female'" class="badge badge-female">女</span>
+                            <span th:case="*" class="badge badge-other">其他</span>
+                        </span>
+            </td>
+            <td th:text="${user.age}">25</td>
+            <td th:text="${user.city}">北京</td>
+            <td>
+                <!-- 使用 #dates 工具格式化日期 -->
+                <span th:text="${#dates.format(user.registerDate, 'yyyy-MM-dd')}">
+                            2024-01-01
+                        </span>
+            </td>
+            <td>
+                <!-- 使用路径变量构建URL -->
+                <a th:href="@{/user/{id}(id=${user.id})}"
+                   class="action-link">查看</a>
+                <a th:href="@{/user/{id}/edit(id=${user.id})}"
+                   class="action-link">编辑</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- th:if 条件判断：列表为空时显示 -->
+    <div th:if="${#lists.isEmpty(users)}" class="empty-state">
+        <div style="font-size: 60px; margin-bottom: 20px;">📭</div>
+        <h2>暂无用户</h2>
+        <p>还没有注册用户，点击上方按钮注册第一个用户吧！</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!-- ============================================ -->
+<!-- register-success.html - 注册成功页面 -->
+<!-- 位置：src/main/resources/templates/user/register-success.html -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册成功</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .success-container {
+            background: white;
+            border-radius: 15px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 600px;
+        }
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #28a745;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .message {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        a {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        a:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+<div class="success-container">
+    <div class="success-icon">✅</div>
+    <h1>注册成功！</h1>
+
+    <!-- 使用 th:text 显示成功消息 -->
+    <p class="message" th:text="${successMessage}">恭喜您成功注册！</p>
+
+    <p style="color: #666; margin-bottom: 30px;">
+        您的账户已创建完成，现在可以开始使用我们的服务了。
+    </p>
+
+    <div class="button-group">
+        <!-- 使用 @{...} URL表达式 -->
+        <a th:href="@{/user/login}" class="btn-primary">🔐 立即登录</a>
+        <a th:href="@{/realusers/list}" class="btn-secondary">👥 查看用户列表</a>
+    </div>
+</div>
+</body>
+</html>

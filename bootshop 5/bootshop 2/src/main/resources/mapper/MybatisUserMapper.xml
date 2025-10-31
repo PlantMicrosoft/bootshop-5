@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.yiqixue.bootshop.mapper.MybatisUserMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="MybatisUserResultMap" type="org.yiqixue.bootshop.entity.MybatisUser">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="realName" column="real_name"/>
+        <result property="gender" column="gender"/>
+        <result property="birthDate" column="birth_date"/>
+        <result property="age" column="age"/>
+        <result property="country" column="country"/>
+        <result property="city" column="city"/>
+        <result property="bio" column="bio"/>
+        <result property="hobbies" column="hobbies"/>
+        <result property="newsletterSubscription" column="newsletter_subscription"/>
+        <result property="termsAccepted" column="terms_accepted"/>
+        <result property="registerDate" column="register_date"/>
+    </resultMap>
+
+    <!-- 插入用户 -->
+    <insert id="insertUser" parameterType="org.yiqixue.bootshop.entity.MybatisUser" 
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mybatis_users (
+            username, password, email, phone, real_name, gender, 
+            birth_date, age, country, city, bio, hobbies, 
+            newsletter_subscription, terms_accepted, register_date
+        ) VALUES (
+            #{username}, #{password}, #{email}, #{phone}, #{realName}, #{gender},
+            #{birthDate}, #{age}, #{country}, #{city}, #{bio}, #{hobbies},
+            #{newsletterSubscription}, #{termsAccepted}, 
+            #{registerDate, jdbcType=DATE}
+        )
+    </insert>
+
+    <!-- 根据ID查找用户 -->
+    <select id="findById" resultMap="MybatisUserResultMap">
+        SELECT * FROM mybatis_users WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户名查找用户 -->
+    <select id="findByUsername" resultMap="MybatisUserResultMap">
+        SELECT * FROM mybatis_users WHERE username = #{username}
+    </select>
+
+    <!-- 根据邮箱查找用户 -->
+    <select id="findByEmail" resultMap="MybatisUserResultMap">
+        SELECT * FROM mybatis_users WHERE email = #{email}
+    </select>
+
+    <!-- 根据手机号查找用户 -->
+    <select id="findByPhone" resultMap="MybatisUserResultMap">
+        SELECT * FROM mybatis_users WHERE phone = #{phone}
+    </select>
+
+    <!-- 查找所有用户 -->
+    <select id="findAll" resultMap="MybatisUserResultMap">
+        SELECT * FROM mybatis_users ORDER BY register_date DESC
+    </select>
+
+    <!-- 更新用户 -->
+    <update id="updateUser" parameterType="org.yiqixue.bootshop.entity.MybatisUser">
+        UPDATE mybatis_users SET
+            username = #{username},
+            password = #{password},
+            email = #{email},
+            phone = #{phone},
+            real_name = #{realName},
+            gender = #{gender},
+            birth_date = #{birthDate},
+            age = #{age},
+            country = #{country},
+            city = #{city},
+            bio = #{bio},
+            hobbies = #{hobbies},
+            newsletter_subscription = #{newsletterSubscription},
+            terms_accepted = #{termsAccepted}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleteById">
+        DELETE FROM mybatis_users WHERE id = #{id}
+    </delete>
+
+    <!-- 检查用户名是否存在 -->
+    <select id="countByUsername" resultType="int">
+        SELECT COUNT(*) FROM mybatis_users WHERE username = #{username}
+    </select>
+
+    <!-- 检查邮箱是否存在 -->
+    <select id="countByEmail" resultType="int">
+        SELECT COUNT(*) FROM mybatis_users WHERE email = #{email}
+    </select>
+
+    <!-- 检查手机号是否存在 -->
+    <select id="countByPhone" resultType="int">
+        SELECT COUNT(*) FROM mybatis_users WHERE phone = #{phone}
+    </select>
+
+</mapper>

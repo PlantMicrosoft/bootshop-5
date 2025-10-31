@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户详情</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .user-card { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .info-row { display: flex; margin-bottom: 15px; }
+        .info-label { font-weight: bold; width: 120px; color: #555; }
+        .info-value { flex: 1; }
+        .button-group { text-align: center; margin-top: 30px; }
+        .btn { display: inline-block; padding: 12px 24px; margin: 0 10px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+<div class="container" th:object="${user}">
+    <h1>
+        <span th:text="*{username}">用户名</span> 的详细信息
+    </h1>
+
+    <div class="user-card">
+        <div class="info-row">
+            <div class="info-label">用户ID：</div>
+            <div class="info-value" th:text="*{id}">1</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">用户名：</div>
+            <div class="info-value" th:text="*{username}">username</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">真实姓名：</div>
+            <div class="info-value" th:text="*{realName}">张三</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">邮箱：</div>
+            <div class="info-value" th:text="*{email}">email@example.com</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">手机号码：</div>
+            <div class="info-value" th:text="*{phone}">13812345678</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">性别：</div>
+            <div class="info-value">
+                <span th:switch="*{gender}">
+                    <span th:case="'male'">👨 男</span>
+                    <span th:case="'female'">👩 女</span>
+                    <span th:case="*">👤 其他</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">年龄：</div>
+            <div class="info-value">
+                <span th:text="*{age}">25</span> 岁
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">出生日期：</div>
+            <div class="info-value">
+                <span th:text="${#temporals.format(user.birthDate, 'yyyy年MM月dd日')}">
+                    1998年1月1日
+                </span>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">国家：</div>
+            <div class="info-value" th:text="*{country}">中国</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">城市：</div>
+            <div class="info-value" th:text="*{city}">北京</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">兴趣爱好：</div>
+            <div class="info-value">
+                <span th:if="${!#strings.isEmpty(user.hobbies)}"
+                      th:text="*{hobbies}">
+                    阅读, 运动
+                </span>
+                <span th:if="${#strings.isEmpty(user.hobbies)}"
+                      style="color: #999;">
+                    未填写
+                </span>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">个人简介：</div>
+            <div class="info-value">
+                <span th:if="${!#strings.isEmpty(user.bio)}"
+                      th:text="*{bio}">
+                    这是个人简介...
+                </span>
+                <span th:if="${#strings.isEmpty(user.bio)}"
+                      style="color: #999;">
+                    未填写
+                </span>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">邮件订阅：</div>
+            <div class="info-value">
+                <span th:text="*{newsletterSubscription} ? '✅ 已订阅' : '❌ 未订阅'">
+                    已订阅
+                </span>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">注册日期：</div>
+            <div class="info-value">
+                <span th:text="${#temporals.format(user.registerDate, 'yyyy年MM月dd日 HH:mm:ss')}">
+                    2024年1月1日 10:00:00
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <a th:href="@{/mybatis-users/{id}/edit(id=*{id})}" class="btn btn-primary">
+            ✏️ 编辑信息
+        </a>
+        <a th:href="@{/mybatis-users/list}" class="btn btn-secondary">
+            📋 返回列表
+        </a>
+    </div>
+</div>
+</body>
+</html>
